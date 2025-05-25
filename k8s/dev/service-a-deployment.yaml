@@ -1,0 +1,33 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-a
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-a
+  template:
+    metadata:
+      labels:
+        app: service-a
+    spec:
+      containers:
+      - name: service-a
+        image: REGION-docker.pkg.dev/PROJECT_ID/microservices-repo/service-a:latest
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-a
+  namespace: dev
+spec:
+  selector:
+    app: service-a
+  ports:
+  - port: 80
+    targetPort: 3000

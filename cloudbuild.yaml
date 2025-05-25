@@ -1,26 +1,24 @@
-
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'REGION-docker.pkg.dev/PROJECT_ID/microservices-repo/service-a:latest', './service-a']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/micro-cicd-lab-2505/microservices-repo/service-a:latest', './service-a']
+
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'REGION-docker.pkg.dev/PROJECT_ID/microservices-repo/service-b:latest', './service-b']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/micro-cicd-lab-2505/microservices-repo/service-b:latest', './service-b']
+
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'REGION-docker.pkg.dev/PROJECT_ID/microservices-repo/service-a:latest']
+  args: ['push', 'us-central1-docker.pkg.dev/micro-cicd-lab-2505/microservices-repo/service-a:latest']
+
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'REGION-docker.pkg.dev/PROJECT_ID/microservices-repo/service-b:latest']
+  args: ['push', 'us-central1-docker.pkg.dev/micro-cicd-lab-2505/microservices-repo/service-b:latest']
+
 - name: 'gcr.io/cloud-builders/kubectl'
-  args:
-  - 'apply'
-  - '-f'
-  - 'k8s/dev/service-a-deployment.yaml'
+  args: ['apply', '-f', 'k8s/dev/service-a-deployment.yaml']
   env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=microservices-cluster'
+    - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=microservices-cluster'
+
 - name: 'gcr.io/cloud-builders/kubectl'
-  args:
-  - 'apply'
-  - '-f'
-  - 'k8s/dev/service-b-deployment.yaml'
+  args: ['apply', '-f', 'k8s/dev/service-b-deployment.yaml']
   env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=microservices-cluster'
+    - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=microservices-cluster'
